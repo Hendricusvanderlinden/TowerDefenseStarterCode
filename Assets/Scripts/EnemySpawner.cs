@@ -1,11 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    private static EnemySpawner _instance;
-    public static EnemySpawner Instance { get { return _instance; } }
+    public static EnemySpawner Instance;
 
     public List<GameObject> Path1;
     public List<GameObject> Path2;
@@ -13,59 +11,45 @@ public class EnemySpawner : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance != null && _instance != this)
+        if (Instance == null)
         {
-            Destroy(this.gameObject);
+            Instance = this;
         }
         else
         {
-            _instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            Destroy(gameObject);
         }
-    }
-
-    private void Start()
-    {
-        InvokeRepeating("SpawnTester", 1f, 1f);
-    }
-
-    private void SpawnTester()
-    {
-        SpawnEnemy(0, Path.Path1);
     }
 
     private void SpawnEnemy(int type, Path path)
     {
-        var newEnemy = Instantiate(Enemies[type], GetPathList(path)[0].transform.position, Quaternion.identity);
+        var newEnemy = Instantiate(Enemies[type], Path1[0].transform.position, Path1[0].transform.rotation);
         var script = newEnemy.GetComponent<Enemy>();
         script.path = path;
-        script.target = RequestTarget(path, script.GetPathIndex());
+        script.target = Path1[1]; // Set the initial target to the second waypoint of Path1
+    }
+
+    private void SpawnTester()
+    {
+        SpawnEnemy(0, Path.Path1); // Spawn the first enemy type on Path1
+    }
+
+    void Start()
+    {
+        InvokeRepeating("SpawnTester", 1f, 1f);
     }
 
     public GameObject RequestTarget(Path path, int index)
     {
-        List<GameObject> currentPath = GetPathList(path);
+        List<GameObject> currentPath = path == Path.Path1 ? Path1 : Path2;
 
-        if (index < currentPath.Count)
+        if (index < currentPath.Count - 1)
         {
-            return currentPath[index];
+            return currentPath[index + 1];
         }
         else
         {
-            return null;
-        }
-    }
-
-    private List<GameObject> GetPathList(Path path)
-    {
-        switch (path)
-        {
-            case Path.Path1:
-                return Path1;
-            case Path.Path2:
-                return Path2;
-            default:
-                return new List<GameObject>();
+            return null; // Reached the end of the path
         }
     }
 }
