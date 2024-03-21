@@ -9,6 +9,7 @@ public class ConstructionSite
     public Vector3 WorldPosition { get; private set; }
     public SiteLevel Level { get; private set; }
     public TowerType TowerType { get; private set; }
+    public static object SiteLevel { get; internal set; }
 
     private GameObject tower;
 

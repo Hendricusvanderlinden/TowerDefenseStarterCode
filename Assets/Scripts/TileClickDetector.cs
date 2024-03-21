@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 
 
 
-public class TileClickDetector : MonoBehaviour
+public class TileClickDetector : MonoBehaviour 
 
 {
 
