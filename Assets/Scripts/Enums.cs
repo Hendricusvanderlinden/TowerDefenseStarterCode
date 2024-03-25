@@ -28,10 +28,10 @@ public enum SiteLevel
 
     Onbebouwd,
 
-    Level1,
+    level1,
 
-    Level2,
+    level2,
 
-    Level3
+    level3
 
 }

@@ -133,7 +133,6 @@ MonoBehaviour:
   target: {fileID: 0}
   speed: 5
   damage: 5
-  scale: 1
 --- !u!212 &1929680570895872179
 SpriteRenderer:
   m_ObjectHideFlags: 0
