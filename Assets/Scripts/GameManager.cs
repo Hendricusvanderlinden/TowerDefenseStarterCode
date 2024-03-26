@@ -25,12 +25,22 @@ public class GameManager : MonoBehaviour
     private int health;
     private int currentWave;
 
+    private bool waveActive = false; // Declareer en initialiseer waveActive
+
     private ConstructionSite selectedSite; // Variabele om geselecteerde bouwplaats te onthouden
+
+    private EnemySpawner enemySpawner; // Declareer enemySpawner
+    private int enemyInGameCounter; // Declareer enemyInGameCounter
+    private int maxWave; // Declareer maxWave
+
+
 
     void Start()
     {
         towerMenu = TowerMenu.GetComponent<TowerMenu>();
         topMenu = TopMenu.GetComponent<TopMenu>();
+        enemySpawner = GetComponent<EnemySpawner>(); // Initialiseer enemySpawner
+
 
         StartGame();
     }
@@ -47,6 +57,85 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+    
+    public void StartWave()
+    {
+        // Verhoog de waarde van currentWave
+        currentWave++;
+
+        // Roep de StartWave-functie van de EnemySpawner aan om de golf te starten
+        enemySpawner.StartWave(currentWave);
+
+        // Verander het label voor de huidige golf in topMenu
+        ChangeWaveLabel(currentWave);
+
+        // Verander waveActive naar true
+        waveActive = true;
+
+        enemyInGameCounter = 0;
+        // Voeg hier eventuele andere logica toe die nodig is om een golf te starten
+    }
+
+    // Functie om een golf te beëindigen
+    public void EndWave()
+    {
+        waveActive = false;
+
+        // Voeg hier de logica toe om te controleren of de golf is afgelopen, en roep EnableWaveButton aan als dat het geval is
+
+        // Als de health van de gate onder 0 is
+        if (health <= 0)
+        {
+            // Roep de EndGame functie aan
+            EndGame();
+            return;
+        }
+
+        // Controleer of alle vijanden zijn verslagen
+        if (enemyInGameCounter <= 0)
+        {
+            // Controleer of de huidige wave gelijk is aan de laatste wave
+            if (currentWave == maxWave)
+            {
+                // Roep de EndGame functie aan
+                EndGame();
+            }
+            else
+            {
+                // Roep EnableWaveButton aan om de golfknop weer interactief te maken
+                topMenu.EnableWaveButton();
+            }
+        }
+    }
+
+    // Functie om het label van de golf te veranderen in topMenu
+    private void ChangeWaveLabel(int waveNumber)
+    {
+        // Voeg hier code toe om het label van de golf te veranderen, bijvoorbeeld:
+        topMenu.SetWaveLabel("Wave " + waveNumber);
+    }
+
+    public void AddInGameEnemy()
+    {
+        enemyInGameCounter++;
+    }
+
+    public void RemoveInGameEnemy()
+    {
+        enemyInGameCounter--;
+
+        if (!waveActive && enemyInGameCounter <= 0)
+        {
+            topMenu.EnableWaveButton();
+        }
+    }
+
+    public void StartNextWave()
+    {
+        currentWave++;
+        enemySpawner.StartWave(currentWave);
+        waveActive = true;
     }
 
     private void StartGame()
