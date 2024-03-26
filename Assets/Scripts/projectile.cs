@@ -2,19 +2,11 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public Transform target;
-    public float speed;
-    public int damage;
+    public float speed = 10f;
+    public int damage = 1;
 
-    private void Start()
-    {
-        if(target != null) 
-        { 
-            Vector2 direction = (target.position - transform.position).normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        }
-    }
+    public Transform target; // Verander deze regel
+
     void Update()
     {
         if (target == null)
@@ -23,13 +15,33 @@ public class Projectile : MonoBehaviour
             return;
         }
 
-        transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+        Vector2 direction = target.position - transform.position;
+        float distanceThisFrame = speed * Time.deltaTime;
 
-        // Controleer of het projectiel het doelwit heeft bereikt
-        if (Vector2.Distance(transform.position, target.position) < 0.2f)
+        if (direction.magnitude <= distanceThisFrame)
         {
-            
-            // Vernietig het projectiel
+            HitTarget();
+            return;
+        }
+
+        transform.Translate(direction.normalized * distanceThisFrame, Space.World);
+    }
+
+    public void Seek(Transform _target)
+    {
+        target = _target;
+    }
+
+    void HitTarget()
+    {
+        if (target != null)
+        {
+            Enemy enemy = target.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.Damage(damage);
+            }
+
             Destroy(gameObject);
         }
     }

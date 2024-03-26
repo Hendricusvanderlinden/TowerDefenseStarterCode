@@ -13,19 +13,6 @@ public class Enemy : MonoBehaviour
     public GameObject target { get; set; }
     private int pathIndex = 1;
 
-    public void Damage(int damage)
-    {
-        // Verminder de gezondheidswaarde met het ontvangen schadedeel
-        health -= damage;
-
-        // Controleer of de gezondheidswaarde kleiner is dan of gelijk is aan nul
-        if (health <= 0)
-        {
-            // Vernietig het gameobject als de gezondheidswaarde nul of kleiner is
-            Destroy(gameObject);
-        }
-    }
-
     void Update()
     {
         float step = speed * Time.deltaTime;
@@ -34,15 +21,24 @@ public class Enemy : MonoBehaviour
         if (Vector2.Distance(transform.position, target.transform.position) < 0.1f)
         {
             target = EnemySpawner.Instance.RequestTarget(path, pathIndex);
-
             pathIndex++;
 
             if (target == null)
             {
+                GameManager.Instance.AttackGate(); // Voer AttackGate functie uit
                 Destroy(gameObject);
             }
         }
-
     }
 
+    public void Damage(int damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
+        {
+            GameManager.Instance.AddCredits(points); // Voer AddCredits functie uit
+            Destroy(gameObject);
+        }
+    }
 }

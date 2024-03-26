@@ -39,11 +39,19 @@ public class ConstructionSite
     {
         if (tower != null)
         {
+            // Bereken de verkoopprijs van de toren
+            int sellPrice = GameManager.Instance.GetCost(TowerType, Level, true);
+
+            // Voeg de verkoopprijs toe aan de credits van de GameManager
+            GameManager.Instance.AddCredits(sellPrice);
+
+            // Vernietig de toren
             GameObject.Destroy(tower);
             tower = null;
         }
 
-        Level = SiteLevel.Onbebouwd; // Herstel naar correcte waarde
+        // Reset de level en het type van de bouwplaats
+        Level = SiteLevel.Onbebouwd;
         TowerType = default;
     }
 }
