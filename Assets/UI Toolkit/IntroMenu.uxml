@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement style="flex-grow: 1;">
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1; width: 714px; background-image: url(&apos;project://database/Assets/Art/mooi-belichte-foto.jpg?fileID=2800000&amp;guid=65cd165311c57e24da43bcdfc3caacd6&amp;type=3#mooi-belichte-foto&apos;);">
         <ui:Button text="QUIT" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Quit-Button" style="position: absolute; top: 196px; left: 353px;" />
         <ui:Button text="PLAY" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Play-Button" focusable="true" style="position: absolute; top: 196px; left: 238px; width: 62px;" />
         <ui:Label tabindex="-1" text="TowerDefense" parse-escape-sequences="true" display-tooltip-when-elided="true" style="position: absolute; top: 48px; left: 262px; bottom: 369px; width: 135px; font-size: 20px;" />

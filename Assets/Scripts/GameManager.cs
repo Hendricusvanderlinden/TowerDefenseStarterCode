@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     private int health;
     private int currentWave;
 
+
+
     private bool waveActive = false; // Declareer en initialiseer waveActive
 
     private ConstructionSite selectedSite; // Variabele om geselecteerde bouwplaats te onthouden
@@ -32,8 +34,6 @@ public class GameManager : MonoBehaviour
     private EnemySpawner enemySpawner; // Declareer enemySpawner
     private int enemyInGameCounter; // Declareer enemyInGameCounter
     private int maxWave; // Declareer maxWave
-
-
 
     void Start()
     {
@@ -295,8 +295,32 @@ public class GameManager : MonoBehaviour
 
     private void EvaluateTowerMenu()
     {
-        // Voeg hier code toe om het torenmenu te evalueren op basis van credits
-        // bijvoorbeeld: schakel knoppen in/uit op basis van beschikbare credits
+        // Controleer of het torenmenu is geïnitialiseerd en of de creditsLabel beschikbaar is
+        if (towerMenu != null && creditsLabel != null)
+        {
+            // Haal het aantal beschikbare credits op uit de creditsLabel
+            int availableCredits;
+            if (int.TryParse(creditsLabel.text, out availableCredits))
+            {
+                // Loop door alle beschikbare torens in het menu
+                foreach (var towerButton in towerMenu.GetTowerButtons())
+                {
+                    // Haal de kostprijs van de toren op
+                    int towerCost = towerButton.GetTowerCost();
+
+                    // Schakel de knop in als er genoeg credits zijn, anders schakel deze uit
+                    towerButton.SetButtonInteractable(availableCredits >= towerCost);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Unable to parse credits from the creditsLabel text.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Tower menu or creditsLabel is not initialized.");
+        }
     }
 
     public void RemoveCredits(int amount)
