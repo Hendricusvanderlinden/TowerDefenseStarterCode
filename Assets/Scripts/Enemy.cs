@@ -13,6 +13,19 @@ public class Enemy : MonoBehaviour
     public GameObject target { get; set; }
     private int pathIndex = 1;
 
+    public void Damage(int damage)
+    {
+        // Verminder de gezondheidswaarde met het ontvangen schadedeel
+        health -= damage;
+
+        // Controleer of de gezondheidswaarde kleiner is dan of gelijk is aan nul
+        if (health <= 0)
+        {
+            // Vernietig het gameobject als de gezondheidswaarde nul of kleiner is
+            Destroy(gameObject);
+        }
+    }
+
     void Update()
     {
         float step = speed * Time.deltaTime;
@@ -29,6 +42,7 @@ public class Enemy : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+
     }
 
 }

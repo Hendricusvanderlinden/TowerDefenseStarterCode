@@ -7,10 +7,10 @@ public class TopMenu : MonoBehaviour
 {
     public UIDocument uiDocument;
 
-    private Label waveLabel;
-    private Label creditsLabel;
-    private Label healthLabel;
-    private Button startWaveButton;
+    private Label wave;
+    private Label credits;
+    private Label health;
+    private Button startWave;
 
     private VisualElement root;
     void Awake()
@@ -21,19 +21,19 @@ public class TopMenu : MonoBehaviour
     void Start()
     {
         // Zoek de labels en button in de UI-document hiërarchie
-        waveLabel = uiDocument.rootVisualElement.Q<Label>("waveLabel");
-        creditsLabel = uiDocument.rootVisualElement.Q<Label>("creditsLabel");
-        healthLabel = uiDocument.rootVisualElement.Q<Label>("healthLabel");
-        startWaveButton = uiDocument.rootVisualElement.Q<Button>("startWaveButton");
+        wave = uiDocument.rootVisualElement.Q<Label>("wave");
+        credits = uiDocument.rootVisualElement.Q<Label>("credits");
+        health = uiDocument.rootVisualElement.Q<Label>("health");
+        startWave = uiDocument.rootVisualElement.Q<Button>("startwave");
 
         // Controleer of de labels en button zijn gevonden
-        if (waveLabel == null || creditsLabel == null || healthLabel == null || startWaveButton == null)
+        if (wave == null || credits == null || health == null || startWave == null)
         {
             Debug.LogError("One or more UI elements not found in UI document!");
         }
 
         // Voeg een event listener toe aan de button
-        startWaveButton.clicked += StartWave;
+        startWave.clicked += StartWave;
     }
 
     // Voeg hier je functie toe om een wave te starten
@@ -45,22 +45,22 @@ public class TopMenu : MonoBehaviour
     // Voeg hier de functies toe om de labels aan te passen
     public void SetWaveLabel(string text)
     {
-        waveLabel.text = text;
+        wave.text = text;
     }
 
     public void SetCreditsLabel(string text)
     {
-        creditsLabel.text = text;
+        credits.text = text;
     }
 
     public void SetHealthLabel(string text)
     {
-        healthLabel.text = text;
+        health.text = text;
     }
 
     // Voeg OnDestroy toe om de callback van de button te verwijderen
     void OnDestroy()
     {
-        startWaveButton.clicked -= StartWave;
+        startWave.clicked -= StartWave;
     }
 }

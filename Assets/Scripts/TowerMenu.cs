@@ -8,7 +8,7 @@ public class TowerMenu : MonoBehaviour
     private Button archerButton;
     private Button swordButton;
     private Button wizardButton;
-    private Button updateButton;
+    private Button upgradeButton;
     private Button destroyButton;
 
     private VisualElement root;
@@ -19,11 +19,11 @@ public class TowerMenu : MonoBehaviour
     void Start()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
-        archerButton = root.Q<Button>("archer-Button");
-        swordButton = root.Q<Button>("sword-Button");
-        wizardButton = root.Q<Button>("wizard-Button");
-        updateButton = root.Q<Button>("Button-update");
-        destroyButton = root.Q<Button>("Button-destroy");
+        archerButton = root.Q<Button>("archer-button");
+        swordButton = root.Q<Button>("sword-button");
+        wizardButton = root.Q<Button>("wizard-button");
+        upgradeButton = root.Q<Button>("button-upgrade"); // Controleer of de naam van de knop correct is in de Unity-editor
+        destroyButton = root.Q<Button>("button-destroy");
 
         if (archerButton != null)
         {
@@ -37,9 +37,9 @@ public class TowerMenu : MonoBehaviour
         {
             wizardButton.clicked += OnWizardButtonClicked;
         }
-        if (updateButton != null)
+        if (upgradeButton != null) // Controleer of upgradeButton correct is geïnitialiseerd
         {
-            updateButton.clicked += OnUpdateButtonClicked;
+            upgradeButton.clicked += OnUpgradeButtonClicked;
         }
         if (destroyButton != null)
         {
@@ -63,7 +63,7 @@ public class TowerMenu : MonoBehaviour
         GameManager.Instance.Build(TowerType.Wizard, SiteLevel.level1);
     }
 
-    private void OnUpdateButtonClicked()
+    private void OnUpgradeButtonClicked()
     {
         if (selectedSite == null) return;
 
@@ -95,9 +95,9 @@ public class TowerMenu : MonoBehaviour
             wizardButton.clicked -= OnWizardButtonClicked;
         }
 
-        if (updateButton != null)
+        if (upgradeButton != null)
         {
-            updateButton.clicked -= OnUpdateButtonClicked;
+            upgradeButton.clicked -= OnUpgradeButtonClicked;
         }
 
         if (destroyButton != null)
@@ -122,7 +122,7 @@ public class TowerMenu : MonoBehaviour
         archerButton.SetEnabled(false);
         swordButton.SetEnabled(false);
         wizardButton.SetEnabled(false);
-        updateButton.SetEnabled(false);
+        upgradeButton.SetEnabled(false);
         destroyButton.SetEnabled(false);
 
         // Gebruik een switch om de knoppen in te schakelen op basis van het niveau van de constructieplaats
@@ -140,7 +140,7 @@ public class TowerMenu : MonoBehaviour
             case SiteLevel.level1:
             case SiteLevel.level2:
                 // Alleen de update- en destroy-knoppen moeten werken
-                updateButton.SetEnabled(true);
+                upgradeButton.SetEnabled(true);
                 destroyButton.SetEnabled(true);
                 break;
             case SiteLevel.level3:

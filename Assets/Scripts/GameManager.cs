@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
 
         if (selectedSite.Level == SiteLevel.Onbebouwd) // Verkoop van toren
         {
-            AddCredits(cost); // Credits toevoegen met true als argument om aan te geven dat het om een verkoop gaat
+            RemoveCredits(cost); // Credits toevoegen met true als argument om aan te geven dat het om een verkoop gaat
         }
         else // Aankoop van nieuwe toren
         {
